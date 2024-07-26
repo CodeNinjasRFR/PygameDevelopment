@@ -24,18 +24,21 @@ def main():
     # Set up font
     font = pygame.font.Font(None, 36)  # None uses the default font, 36 is the font size
 
-
+    # setup score at 0
     score = 0
-    looping = True
+
+    # Set up character to start in middle (800/2 - playerWidth/2)
     characterX = 375
     characterY = 275
     characterWidth = 50
     characterHeight = 50
 
+    # Set up collectable with random position
     collectableX = random.randint(0, 800)
     collectableY = random.randint(0, 600)
     collectableWidth = 25
     collectableHeight = 25
+
     # The initial velocity of the character is moving right
     velocityX = 5
     velocityY = 0
@@ -44,6 +47,8 @@ def main():
     start_time = pygame.time.get_ticks()
     timer_duration = 30000  # 5000 milliseconds = 5 seconds
 
+    # setup game loop
+    looping = True
 
     while looping:
         for event in pygame.event.get():
