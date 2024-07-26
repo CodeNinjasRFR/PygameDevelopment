@@ -2,15 +2,14 @@ import pygame, sys, random
 from pygame.locals import *
 pygame.init()
 
-# Colours RGB Values
-
 
 def main():
 
+    # Colours RGB Values
     BACKGROUND = (255, 255, 255)
     PLAYER = (255, 30, 70)
     COLLECTABLE = (255, 192, 203)
-    TEXT_COLOR = (0, 0, 0)  # Color of the text (black)
+    TEXT_COLOR = (0, 0, 0)  
 
     # Game Setup
     FPS = 60
@@ -20,7 +19,7 @@ def main():
 
     # Initialize the window
     WINDOW = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-    pygame.display.set_caption('My Game!')
+    pygame.display.set_caption('Collect the cubes!')
     
     # Set up font
     font = pygame.font.Font(None, 36)  # None uses the default font, 36 is the font size
