@@ -34,11 +34,13 @@ Python *filename*.py
 The setup instructions include downloading the starter code, and setting up a Python virtual environment. These steps may seem straightforward, but since they require using the terminal I recommend having a parent assist with these steps. 
 
 
-1. **Clone the Repository**:
+1. **Download the starter code**:
+   Above this readme, towards the top of the page, you will see a big green button that says <>CODE. 
+
    ```bash
    git clone https://github.com/your-username/my-awesome-project.git
-
-2. **Setting up a Python venv**
+   ```
+3. **Setting up a Python venv**
    Why this step? When you download Python packages to import into your local code, you download a specific version. Different versions of packages may include different features. If you have 2 different Python      projects that require 2 different versions of a package, you will run into a problem if you download straight to your device. A Python venv is essentially a cache of data local to your project that stores the     packages that you have downloaded. Kids aren't required to understand WHY we do this step, but it is important to know if they wan't to develop more python projects in the future.
 
    Here are the steps to setting up a python venv:
@@ -56,12 +58,23 @@ The setup instructions include downloading the starter code, and setting up a Py
   ```bash
   python -m venv venv
   ```
-  **Fourth**, now to activate it. In the same terminal, type
+  **Fourth**, now to activate it. This last step differs for Mac/Linux and windows. For Mac, In the same terminal, type
   ```bash
   source venv/bin/activate
   ```
+  For Windows, type:
+  ```bash
+  venv\Scripts\activate
+  ```
+  That is all the steps for the venv! You will know your venv is setup properly if your pathname in the terminal has a (venv) out front:
+  ![image](https://github.com/user-attachments/assets/644edb47-186c-475f-a55c-da55d1b49ac4)
 
-  That is all the steps! You will know your venv is setup properly if your pathname in the terminal has a (venv) out front:
+  Now, the whole reason we created the venv is to install our required packages:
+  ```bash
+  pip install pygame
+  ```
+
+  We are now ready to get started with day 1.
   
 # Day 1
 Objective: [Describe the goal for Day 1, e.g., "Set up your local development environment."]
