@@ -1,4 +1,4 @@
-# My Awesome Project
+# CodeNinjas game development with Python
 
 Welcome to the **Pygame Development** repository. This project is designed to walkthrough basic Python games using the pygame package. Kids will be introduced to object oriented programming with **variables**, **loops**, **conditional statements**, **UI**, **APIs**, and more. Towards the end of camp we will be demonstrating how to incorporate **generative artificial intelligence** into video games by using **Google Gemini's** chatbot (LLM).
 
@@ -35,11 +35,19 @@ The setup instructions include downloading the starter code, and setting up a Py
 
 
 1. **Download the starter code**:
-   Above this readme, towards the top of the page, you will see a big green button that says <>CODE. 
+   Above this readme, towards the top of the page, you will see a big green button that says <>CODE. Click this button, and in the dropdown click download zip. Now choose the location you want your project to be stored. After it finishes downloading, find it in the file manager and extract the folder contents. Make sure to remember where you stored it, since the kids will need to navigate their to run the code. For reference, I am storing my project in documents->PythonProjects, a folder to manage my python projects. Now, when you clone the project, it makes another folder named PygameDevelopment, so you don't need to create your own folder for this week, just download the zip to where you want the project.
 
-   ```bash
-   git clone https://github.com/your-username/my-awesome-project.git
-   ```
+   You can verify the success of this step by opening the project in visual studio code. Open the app, and in the top left click File->Open Folder. This will open up the file manager. Find the folder we downloaded just before this (PygameDevelopment), select it, and click open.
+
+   On the left of Visual Studio Code, click the file icon to open up the file heirarchy. The button looks like this:
+   ![image](https://github.com/user-attachments/assets/8d77e743-cf29-4472-81c2-ba7574dd86c2)
+
+   If the project has been downloaded succesfully, you should see a menu like this with a few python files:
+   
+   ![image](https://github.com/user-attachments/assets/a6ac0d8b-680a-40b3-9efd-1f8a8b3e4bab)
+
+   Clicking on any of these python files should open up a bunch of code in the main section of vscode. If you see that, you are good to go.
+
 3. **Setting up a Python venv**
    Why this step? When you download Python packages to import into your local code, you download a specific version. Different versions of packages may include different features. If you have 2 different Python      projects that require 2 different versions of a package, you will run into a problem if you download straight to your device. A Python venv is essentially a cache of data local to your project that stores the     packages that you have downloaded. Kids aren't required to understand WHY we do this step, but it is important to know if they wan't to develop more python projects in the future.
 
@@ -77,55 +85,22 @@ The setup instructions include downloading the starter code, and setting up a Py
   We are now ready to get started with day 1.
   
 # Day 1
-Objective: [Describe the goal for Day 1, e.g., "Set up your local development environment."]
-Tasks:
-Install Node.js
-Set up a GitHub repository
-Create a README.md file
-Resources:
-[Link to relevant documentation or tutorials]
+Objective: Overview of Pygame basic requirements, adding characters, handling player input, setting up the pygame scene, beginner game
+
 # Day 2
-Objective: [Describe the goal for Day 2, e.g., "Build your first component."]
-Tasks:
-Create a basic HTML file
-Add some CSS styling
-Write a simple JavaScript function
-Resources:
-[Link to relevant documentation or tutorials]
+Objective: TBD
+
 # Day 3
-Objective: [Describe the goal for Day 3, e.g., "Learn about version control."]
-Tasks:
-Commit changes to Git
-Create and switch branches
-Merge branches and resolve conflicts
-Resources:
-[Link to relevant documentation or tutorials]
+Objective: TBD
+
 # Day 4
-Objective: [Describe the goal for Day 4, e.g., "Implement a feature."]
+Objective: TBD
 
-Tasks:
-Add a new feature to your project
-Write tests for your feature
-Review and refactor your code
-
-Resources:
-[Link to relevant documentation or tutorials]
 # Day 5
-Objective: [Describe the goal for Day 5, e.g., "Deploy your project."]
+Objective: TBD
 
-Tasks:
-Set up a deployment pipeline
-Deploy your project to a hosting service
-Verify that everything is working correctly
-
-Resources:
-[Link to relevant documentation or tutorials]
 
 # Common Mistakes
 Here are some common pitfalls and how to avoid them:
 
-Not Committing Often: Make regular commits to avoid losing work.
-Ignoring Merge Conflicts: Always resolve merge conflicts carefully.
-Not Testing Code: Write and run tests to ensure your code works as expected.
-Neglecting Documentation: Keep your README.md and other documentation up to date.
-Forgetting to Push Changes: Regularly push your changes to the remote repository to keep it up to date.
+TBD
