@@ -4,7 +4,8 @@ from pygame.locals import *
 pygame.init()
  
 # Colours RGB Values
-BACKGROUND = (255, 255, 255)
+
+BACKGROUND = (255, 192, 203) #pink
 PLAYER = (255, 0, 0)
 # Game Setup
 FPS = 60
@@ -41,7 +42,7 @@ def main () :
       # This section will be built out later
       velocityY+=ACCELERATION
       characterY+=velocityY
-      
+      1
       characterX+=velocityX
       characterX= characterX%WINDOW_WIDTH
 
