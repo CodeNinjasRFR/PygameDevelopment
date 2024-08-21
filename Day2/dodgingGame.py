@@ -3,16 +3,16 @@ from pygame.locals import *
 
 pygame.init()
 pygame.mixer.init()
-explode = pygame.mixer.Sound('./explosion.mp3')
-flight = pygame.mixer.Sound('./flight.mp3')
-music = pygame.mixer.music.load('./background.mp3')
+explode = pygame.mixer.Sound('./sounds/explosion.mp3')
+flight = pygame.mixer.Sound('./sounds/flight.mp3')
+music = pygame.mixer.music.load('./sounds/background.mp3')
 # Colours RGB Values
 BACKGROUND = (255, 192, 203)  # pink
 
 # Game Setup
 FPS = 60
 fpsClock = pygame.time.Clock()
-WINDOW_WIDTH = 1550
+WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 800
 ACCELERATION = 1
 
@@ -20,10 +20,10 @@ ACCELERATION = 1
 WINDOW = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('Dodge the Tick heads!')
 
-MORTIS_IMAGE= pygame.image.load('./mortissprite.png')
+MORTIS_IMAGE= pygame.image.load('./sprites/mortissprite.png')
 scaled_mortis_image = pygame.transform.scale(MORTIS_IMAGE,(100,100))
 
-TICK_HEAD = pygame.image.load('./Tick_head.png')
+TICK_HEAD = pygame.image.load('./sprites/Tick_head.png')
 scaled_tick_head = pygame.transform.scale(TICK_HEAD,(50,50))
 
 def show_splash_screen(score):
@@ -111,7 +111,6 @@ def main():
             enemyX1=WINDOW_WIDTH
             enemyY1=random.randint(0,WINDOW_HEIGHT-50)
             score+=1
-
         enemy1_rect.topleft=(enemyX1,enemyY1)
 
         if enemyX2<0:

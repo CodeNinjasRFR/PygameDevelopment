@@ -1,3 +1,4 @@
+# blank template for pygame projects
 # importing necessary libraries and starting pygame
 import pygame, sys, random
 from pygame.locals import *
