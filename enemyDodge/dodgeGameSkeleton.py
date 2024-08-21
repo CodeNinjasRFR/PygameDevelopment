@@ -3,6 +3,8 @@ from pygame.locals import *
 
 pygame.init()
 pygame.mixer.init()
+
+# free MP3 sounds online at pixabay.com then go to sound effects download to sounds folder
 explode = pygame.mixer.Sound('./explosion.mp3')
 flight = pygame.mixer.Sound('./flight.mp3')
 music = pygame.mixer.music.load('./background.mp3')
@@ -20,6 +22,8 @@ ACCELERATION = 1
 WINDOW = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('Dodge the Tick heads!')
 
+
+# find free PNG images online and download to sprites folder
 MORTIS_IMAGE= pygame.image.load('./mortissprite.png')
 scaled_mortis_image = pygame.transform.scale(MORTIS_IMAGE,(100,100))
 

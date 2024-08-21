@@ -84,23 +84,14 @@ The setup instructions include downloading the starter code, and setting up a Py
 
   We are now ready to get started with day 1.
   
-# Day 1
-Objective: Overview of Pygame basic requirements, adding characters, handling player input, setting up the pygame scene, beginner game
 
-# Day 2
-Objective: TBD
+## Completing the projects
+   Now that our environment is setup, ninja are ready to complete the projects. Each project comes with 2 files, a skeleton code file, and a game file. 
 
-# Day 3
-Objective: TBD
+   The skeleton code is what I chose to provide the ninja with, and we filled in the rest. The game file, is meant to be a sort of answer key. Ninja should not be given the game code, but sensei can use to reference or demonstrate a finished product. 
 
-# Day 4
-Objective: TBD
+   Always explain code pieces that ninja are provided so they don't feel overwhelmed
 
-# Day 5
-Objective: TBD
+   I would recommend breaking up sections of code for everything, rather than just filling in missing lines of code top to bottom.
 
 
-# Common Mistakes
-Here are some common pitfalls and how to avoid them:
-
-TBD
