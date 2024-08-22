@@ -17,7 +17,6 @@ fpsClock = pygame.time.Clock()
 WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 800
 game_state = 'splash'
-WAVES = [10, 15, 20]
 
 # Text setup
 font = pygame.font.SysFont(None, 36)
@@ -69,70 +68,41 @@ def update_game_state(new_state):
     else:
         stop_music()
 
-class PowerUp(pygame.sprite.Sprite):
-    def __init__(self, x, y, type, image):
-        super().__init__()
-        self.image = image
-        self.rect = self.image.get_rect(topleft=(x, y))
-        self.type = type  # Type of power-up (e.g., "health", "speed")
-    
-    # Powerups have no update logic since they only behave when collided
-    def update(self):
-        pass
 
-    # Apply the power-up to the player based on type
-    def apply(self, player):
-        if self.type == "health":
-            player.health = min(player.health + 25, 100)  # Restore health, max 100
-        elif self.type == "speed":
-            player.speed *= 2  # Temporarily increase player speed
-            player.boost_end_time = time.time() + 15  # Set boost duration to 15 seconds
+#<---------------------------- NINJA ASSIGNMENTS HERE !!! -------------------------------------->
 
-        # Remove the power-up after applying it
-        pygame.mixer.Sound.play(powerup)
-        self.kill()
 
-# Function to spawn enemies at the edge
+"""TODO:: CREATE THE POWERUP CLASS """
+
+
+"""TODO: IMPLEMENT SPAWN ENEMY ON EDGE FUNCTION"""
 def spawn_enemy_on_edge():
-    # randomly choose side to spawn the enemy, then randomize spawn location on that side
-    edge = random.choice(['top', 'bottom', 'left', 'right'])
-    if edge == 'top':
-        x = random.randint(0, WINDOW_WIDTH - 50)
-        y = -50
-    elif edge == 'bottom':
-        x = random.randint(0, WINDOW_WIDTH - 50)
-        y = WINDOW_HEIGHT
-    elif edge == 'left':
-        x = -50
-        y = random.randint(0, WINDOW_HEIGHT - 50)
-    elif edge == 'right':
-        x = WINDOW_WIDTH
-        y = random.randint(0, WINDOW_HEIGHT - 50)
 
-    return x, y
 
-# Function to spawn a wave of enemies
+    return [300,200]
+
+"""TODO: IMPLEMENT WAVE SPAWNING"""
 def spawn_wave(number_of_enemies):
-    # loop through number of enemies and spawn them at random locations
-    for _ in range(number_of_enemies):
-        x, y = spawn_enemy_on_edge() # calculate random spawn location
-        enemy = Enemy(x, y, 100, 2,enemy_image) # instantiate enemy
-        all_sprites.add(enemy)
-        enemies.add(enemy)
-    
-    # one powerup per wave chosen randomly here. 50/50 health or speed
-    if random.randint(1,2)==1:
-        powerup = PowerUp(random.randint(0, WINDOW_WIDTH - 50), random.randint(0, WINDOW_HEIGHT - 50), 'health', heart_image)
-    else:
-        powerup=PowerUp(random.randint(0, WINDOW_WIDTH - 50), random.randint(0, WINDOW_HEIGHT - 50), 'speed',bolt_image)
-    powerups.add(powerup)
-    all_sprites.add(powerup)
+    x, y = spawn_enemy_on_edge() 
+    enemy = Enemy(x, y, 100, 2,enemy_image) 
+    all_sprites.add(enemy)
+    enemies.add(enemy)
 
-# Main Game loop
+"""TODO: INITIALIZE WAVE SIZES AND NUMBER"""
+WAVES = [1]
+
+
+#<----------------------------------------------------------------------------------------------->
+
+
+
+
+"""DO NOT EDIT GAME_LOOP!!!"""
 def game_loop():
     global all_sprites, enemies, projectiles, high_score, powerups
 
-    splash_screen(WINDOW,font,background_image) # Show the instruction screen one time at the start
+    # instructions splash screen
+    splash_screen(WINDOW,font,background_image) 
     update_game_state('playing') # begin BG music
 
     high_score = 0 # local high score
