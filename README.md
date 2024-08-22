@@ -1,10 +1,10 @@
 # CodeNinjas game development with Python
 
-Welcome to the **Pygame Development** repository. This project is designed to walkthrough basic Python games using the pygame package. Kids will be introduced to object oriented programming with **variables**, **loops**, **conditional statements**, **UI**, **APIs**, and more. Towards the end of camp we will be demonstrating how to incorporate **generative artificial intelligence** into video games by using **Google Gemini's** chatbot (LLM).
+Welcome to the **Pygame Development** repository. This project is designed to walkthrough basic Python games using the pygame package. Kids will be introduced to object oriented programming with **variables**, **loops**, **conditional statements**, **UI**, **Classes**, and more.
 
 ## Description
 
-This curriculum is intended to be for kids 11+, and requires basic reading comprehension skills. Kids will be typing python code on their own, and will be introduced to text editors that are used in professional development. Because of this, keyboard proficiency is also a requirement. Each day will progressively increase in complexity, so it is recommended to complete the day's in order. 
+This curriculum is intended to be for kids 10+, and requires basic reading comprehension skills. Kids will be typing python code on their own, and will be introduced to text editors that are used in professional development. Because of this, keyboard proficiency is also a requirement. Each day will progressively increase in complexity, so it is recommended to complete the day's in order. 
 
 ## Requirements
 
@@ -94,4 +94,11 @@ The setup instructions include downloading the starter code, and setting up a Py
 
    I would recommend breaking up sections of code for everything, rather than just filling in missing lines of code top to bottom.
 
-
+## Note about survival game:
+   Survival game is the final project for the week and introduces a cohesive game with levels, UI, and multiple game objects. Due to time and complexity restraints, I pre built many 
+   of the functions for the kids myself and seperated them into files, in odrer to avoid overwhelming the kids. 
+   1. classes.py - Pre built classes for all game objects except powerup
+   2. UIComponents.py - Pre built functions to draw the splash screens, instructions, labels, and captions
+   3. survivalSkeleton.py - The file I had the kids edit, by implementing the missing class and functions
+   4. survival.py - An example answer key to survivalSkeleton.py for teachers to follow
+   5. complete.py - A complete python file with all functions and classes in one, in case you don't want the game seperated out.
