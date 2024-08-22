@@ -1,10 +1,10 @@
 # CodeNinjas game development with Python
 
-Welcome to the **Pygame Development** repository. This project is designed to walkthrough basic Python games using the pygame package. Kids will be introduced to object oriented programming with **variables**, **loops**, **conditional statements**, **UI**, **APIs**, and more. Towards the end of camp we will be demonstrating how to incorporate **generative artificial intelligence** into video games by using **Google Gemini's** chatbot (LLM).
+Welcome to the **Pygame Development** repository. This project is designed to walkthrough basic Python games using the pygame package. Kids will be introduced to object oriented programming with **variables**, **loops**, **conditional statements**, **UI**, **Classes**, and more.
 
 ## Description
 
-This curriculum is intended to be for kids 11+, and requires basic reading comprehension skills. Kids will be typing python code on their own, and will be introduced to text editors that are used in professional development. Because of this, keyboard proficiency is also a requirement. Each day will progressively increase in complexity, so it is recommended to complete the day's in order. 
+This curriculum is intended to be for kids 10+, and requires basic reading comprehension skills. Kids will be typing python code on their own, and will be introduced to text editors that are used in professional development. Because of this, keyboard proficiency is also a requirement. Each day will progressively increase in complexity, so it is recommended to complete the day's in order. 
 
 ## Requirements
 
