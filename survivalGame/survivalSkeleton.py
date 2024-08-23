@@ -1,6 +1,6 @@
 import pygame, sys, random, time
 from pygame.locals import *
-from UIComponents import death_screen, splash_screen, draw_wave_caption, draw_wave_label, draw_health_label
+from UIComponents import death_screen, splash_screen, draw_wave_caption, draw_wave_label, draw_health_label, draw_boss_health_bar
 from classes import Player, Enemy
 pygame.init()
 pygame.mixer.init()
@@ -17,7 +17,8 @@ fpsClock = pygame.time.Clock()
 WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 800
 game_state = 'splash'
-
+WAVES = [10, 15, 20]
+BOSS_HEALTH=100
 # Text setup
 font = pygame.font.SysFont(None, 36)
 
@@ -45,6 +46,8 @@ heart_image = pygame.transform.scale(heart_image, (50, 50))
 bolt_image = pygame.image.load('./sprites/bolt.png')
 bolt_image = pygame.transform.scale(bolt_image, (50, 50))
 
+boss_image = pygame.image.load('./sprites/boss.png')
+boss_image = pygame.transform.scale(boss_image, (100, 100))
 # Loading sounds
 music = pygame.mixer.music.load('./sounds/background.mp3')
 throw = pygame.mixer.Sound('./sounds/throw.mp3')
@@ -52,6 +55,7 @@ enemy_death = pygame.mixer.Sound('./sounds/enemyDeath.mp3')
 wave_clear = pygame.mixer.Sound('./sounds/waveClear.mp3')
 player_damaged = pygame.mixer.Sound('./sounds/playerDamaged.mp3')
 powerup = pygame.mixer.Sound('./sounds/powerup.mp3')
+boss_spawn = pygame.mixer.Sound('./sounds/bossSpawn.mp3')
 
 # functions for handling BG music logic
 def start_music():
@@ -70,10 +74,23 @@ def update_game_state(new_state):
 
 
 #<---------------------------- NINJA ASSIGNMENTS HERE !!! -------------------------------------->
+"""TODO:: CREATE THE BOSS CLASS """
+class Boss(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
 
+    def update(self):
+        pass
 
 """TODO:: CREATE THE POWERUP CLASS """
+class PowerUp(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
 
+    def update(self):
+        pass
+    def appy(self):
+        pass
 
 """TODO: IMPLEMENT SPAWN ENEMY ON EDGE FUNCTION"""
 def spawn_enemy_on_edge():
@@ -82,7 +99,7 @@ def spawn_enemy_on_edge():
     return [300,200]
 
 """TODO: IMPLEMENT WAVE SPAWNING"""
-def spawn_wave(number_of_enemies):
+def spawn_wave(number_of_enemies,current_wave):
     x, y = spawn_enemy_on_edge() 
     enemy = Enemy(x, y, 100, 2,enemy_image) 
     all_sprites.add(enemy)
@@ -96,16 +113,14 @@ WAVES = [1]
 
 
 
-
-"""DO NOT EDIT GAME_LOOP!!!"""
 def game_loop():
-    global all_sprites, enemies, projectiles, high_score, powerups
+    global all_sprites, enemies, projectiles, high_score, powerups, boss
 
-    # instructions splash screen
-    splash_screen(WINDOW,font,background_image) 
+    splash_screen(WINDOW,font,background_image) # Show the instruction screen one time at the start
     update_game_state('playing') # begin BG music
 
     high_score = 0 # local high score
+    boss=None
     while True:
 
         # Initialize game variables
@@ -146,13 +161,21 @@ def game_loop():
             for projectile in projectiles:
                 projectile.update()
 
+            if boss:
+                boss.update(player.rect.center)
+
             # Check for collision between projectiles and enemies - if so, kill enemy
             for projectile in projectiles:
                 hits = pygame.sprite.spritecollide(projectile, enemies, True)
                 if hits:
                     pygame.mixer.Sound.play(enemy_death)
                     projectile.kill()
-
+            if boss:
+                for projectile in projectiles:
+                    if pygame.sprite.collide_rect(projectile, boss):
+                        pygame.mixer.Sound.play(enemy_death)
+                        boss.take_damage(BOSS_HEALTH/4)  # Boss loses 1/4 of its health
+                        projectile.kill()
             # Check for collision between player and enemies - if so, damage player
             hits = pygame.sprite.spritecollide(player, enemies, True)  # Remove enemy when hit with True parameter
             if hits:
@@ -178,8 +201,22 @@ def game_loop():
                     if hits:
                         powerup.kill() # Remove power-up when enemy consumes it
 
+            if boss and boss.check_collision_with_player(player):
+                pygame.mixer.Sound.play(player_damaged)
+                if player.take_damage(50):  # Player loses 1/2 of its health
+                    update_game_state('death')
+                    game_active = False
+
+                    # Check if the player has beaten the high score
+                    if current_wave_index + 1 > high_score:
+                        death_screen(current_wave_index + 1, high_score, True)  # Show death screen with high score ui
+                        high_score = current_wave_index + 1
+                    else:
+                        death_screen(current_wave_index + 1, high_score, False)  # Show death screen without high score ui
+                boss.teleport(player)
+
             # Check if all enemies from the current wave are defeated
-            if not enemies:
+            if not enemies and not (boss and boss.alive()):
 
                 # if a wave was currently active
                 if wave_spawned:
@@ -208,12 +245,12 @@ def game_loop():
                     delay_in_progress = False
                     wave_spawned = True
                     if enemies_to_spawn > 0:
-                        spawn_wave(enemies_to_spawn)
+                        spawn_wave(enemies_to_spawn,current_wave_index)
                         enemies_to_spawn = 0
 
             # Spawn new enemies if needed (initial wave)
             if not wave_spawned and not delay_in_progress and enemies_to_spawn > 0:
-                spawn_wave(enemies_to_spawn)
+                spawn_wave(enemies_to_spawn,current_wave_index)
                 enemies_to_spawn = 0
                 wave_spawned = True
 
@@ -222,6 +259,9 @@ def game_loop():
             all_sprites.draw(WINDOW)
             draw_wave_label(WINDOW, font, current_wave_index)
             draw_health_label(WINDOW, font, player.health) 
+
+            draw_boss_health_bar(WINDOW, boss)
+
 
             # show wave x cleared when it is done
             if delay_in_progress:
