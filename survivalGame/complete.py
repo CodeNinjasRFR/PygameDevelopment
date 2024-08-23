@@ -17,7 +17,7 @@ WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 800
 game_state = 'splash'
 WAVES = [10, 15, 20]
-
+BOSS_HEALTH=100
 # Text setup
 font = pygame.font.SysFont(None, 36)
 
@@ -34,6 +34,9 @@ player_image = pygame.transform.scale(player_image, (75, 75))
 
 enemy_image = pygame.image.load('./sprites/enemy.png')
 enemy_image = pygame.transform.scale(enemy_image, (50, 50))
+
+boss_image = pygame.image.load('./sprites/boss.png')
+boss_image = pygame.transform.scale(boss_image, (100, 100))
 
 
 projectile_image = pygame.image.load('./sprites/projectile.png')
@@ -229,6 +232,40 @@ class PowerUp(pygame.sprite.Sprite):
         pygame.mixer.Sound.play(powerup)
         self.kill()
 
+class Boss(pygame.sprite.Sprite):
+    def __init__(self, x, y, speed, image, health):
+        super().__init__()
+        self.image = image
+        self.rect = self.image.get_rect(topleft=(x, y))
+        self.speed = speed
+        self.health = health
+
+    def update(self, player_pos):
+        # Example: Simple movement towards the player (could be more complex)
+        dx = player_pos[0] - self.rect.centerx
+        dy = player_pos[1] - self.rect.centery
+        distance = max(1, (dx**2 + dy**2) ** 0.5)
+        self.rect.x += self.speed * dx / distance
+        self.rect.y += self.speed * dy / distance
+
+    def take_damage(self, amount):
+        global boss
+        self.health -= amount
+        print(self.health)
+        if self.health <= 0:
+            self.kill()
+            boss=None
+
+    def check_collision_with_player(self, player):
+        if pygame.sprite.collide_rect(self, player):
+            return True
+        return False
+    def teleport(self, player):
+        # Move the boss to a random position away from the player
+        new_x = player.rect.centerx + random.randint(100, 200) * random.choice([-1, 1])
+        new_y = player.rect.centery + random.randint(100, 200) * random.choice([-1, 1])
+        self.rect.topleft = (new_x, new_y)
+
 # draw rectangle for death screen UI
 def draw_rounded_rect(surface, color, rect, radius):
     pygame.draw.rect(surface, color, rect, border_radius=radius)
@@ -366,6 +403,32 @@ def draw_health_label(window, font, health, color=(0, 0, 0)):
     """Draws the health label just underneath the wave label."""
     health_text = f"Health: {health}"
     draw_text(health_text, font, color, window, 70, 55)  # Adjust x and y for desired position
+def draw_boss_health_bar(screen, boss):
+    if boss is None:
+        return
+
+    # Health bar dimensions
+    bar_width = 300
+    bar_height = 30
+    border_thickness = 2
+
+    # Bar position (centered at the top of the screen)
+    x = (WINDOW_WIDTH - bar_width) // 2
+    y = 10  # Top margin
+
+    # Health bar background
+    pygame.draw.rect(screen, (50, 50, 50), (x - border_thickness, y - border_thickness, bar_width + 2 * border_thickness, bar_height + 2 * border_thickness))  # Border
+    pygame.draw.rect(screen, (200, 200, 200), (x, y, bar_width, bar_height))  # Background
+
+    # Health bar fill
+    health_percentage = max(0, boss.health / 100)  # Assuming boss's max health is 100
+    health_color = (255, 0, 0)  # Red color for health
+    pygame.draw.rect(screen, health_color, (x, y, bar_width * health_percentage, bar_height))
+
+    # Draw the caption
+    font = pygame.font.Font(None, 24)  # Adjust font size as needed
+    caption = font.render('Boss Health', True, (255, 255, 255))  # White color
+    screen.blit(caption, (x + bar_width // 2 - caption.get_width() // 2, y + bar_height + 5))  # Position below the bar
 
 # Function to spawn enemies at the edge
 def spawn_enemy_on_edge():
@@ -387,7 +450,8 @@ def spawn_enemy_on_edge():
     return x, y
 
 # Function to spawn a wave of enemies
-def spawn_wave(number_of_enemies):
+def spawn_wave(number_of_enemies, current_wave):
+    global boss
     # loop through number of enemies and spawn them at random locations
     for _ in range(number_of_enemies):
         x, y = spawn_enemy_on_edge() # calculate random spawn location
@@ -403,14 +467,20 @@ def spawn_wave(number_of_enemies):
     powerups.add(powerup)
     all_sprites.add(powerup)
 
+    if (current_wave+1) % 3==0:
+        x, y = spawn_enemy_on_edge()
+        boss = Boss(x, y, 4,boss_image,BOSS_HEALTH)
+        all_sprites.add(boss)
 # Main Game loop
 def game_loop():
-    global all_sprites, enemies, projectiles, high_score, powerups
+    global all_sprites, enemies, projectiles, high_score, powerups, boss
 
     splash_screen() # Show the instruction screen one time at the start
     update_game_state('playing') # begin BG music
 
     high_score = 0 # local high score
+    boss = None  # Initialize boss variable
+
     while True:
 
         # Initialize game variables
@@ -451,12 +521,22 @@ def game_loop():
             for projectile in projectiles:
                 projectile.update()
 
+            if boss:
+                boss.update(player.rect.center)
+
             # Check for collision between projectiles and enemies - if so, kill enemy
             for projectile in projectiles:
                 hits = pygame.sprite.spritecollide(projectile, enemies, True)
                 if hits:
                     pygame.mixer.Sound.play(enemy_death)
                     projectile.kill()
+
+            if boss:
+                for projectile in projectiles:
+                    if pygame.sprite.collide_rect(projectile, boss):
+                        pygame.mixer.Sound.play(enemy_death)
+                        boss.take_damage(BOSS_HEALTH/4)  # Boss loses 1/4 of its health
+                        projectile.kill()
 
             # Check for collision between player and enemies - if so, damage player
             hits = pygame.sprite.spritecollide(player, enemies, True)  # Remove enemy when hit with True parameter
@@ -482,9 +562,22 @@ def game_loop():
                     hits = pygame.sprite.spritecollide(powerup, enemies,False)  # Remove enemy when hit set to False
                     if hits:
                         powerup.kill() # Remove power-up when enemy consumes it
+            if boss and boss.check_collision_with_player(player):
+                pygame.mixer.Sound.play(player_damaged)
+                if player.take_damage(50):  # Player loses 1/2 of its health
+                    update_game_state('death')
+                    game_active = False
+
+                    # Check if the player has beaten the high score
+                    if current_wave_index + 1 > high_score:
+                        death_screen(current_wave_index + 1, high_score, True)  # Show death screen with high score ui
+                        high_score = current_wave_index + 1
+                    else:
+                        death_screen(current_wave_index + 1, high_score, False)  # Show death screen without high score ui
+                boss.teleport(player)
 
             # Check if all enemies from the current wave are defeated
-            if not enemies:
+            if not enemies and not (boss and boss.alive()):
 
                 # if a wave was currently active
                 if wave_spawned:
@@ -513,12 +606,12 @@ def game_loop():
                     delay_in_progress = False
                     wave_spawned = True
                     if enemies_to_spawn > 0:
-                        spawn_wave(enemies_to_spawn)
+                        spawn_wave(enemies_to_spawn,current_wave_index)
                         enemies_to_spawn = 0
 
             # Spawn new enemies if needed (initial wave)
             if not wave_spawned and not delay_in_progress and enemies_to_spawn > 0:
-                spawn_wave(enemies_to_spawn)
+                spawn_wave(enemies_to_spawn, current_wave_index)
                 enemies_to_spawn = 0
                 wave_spawned = True
 
@@ -527,6 +620,8 @@ def game_loop():
             all_sprites.draw(WINDOW)
             draw_wave_label(WINDOW, font, current_wave_index)
             draw_health_label(WINDOW, font, player.health) 
+
+            draw_boss_health_bar(WINDOW, boss)
 
             # show wave x cleared when it is done
             if delay_in_progress:

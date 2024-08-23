@@ -100,3 +100,29 @@ def draw_wave_label(window, font, wave_index, color=(0, 0, 0)):
 def draw_health_label(window, font, health, color=(0, 0, 0)):
     health_text = f"Health: {health}"
     draw_text(health_text, font, color, window, 70, 55)
+def draw_boss_health_bar(screen, boss):
+    if boss is None:
+        return
+
+    # Health bar dimensions
+    bar_width = 300
+    bar_height = 30
+    border_thickness = 2
+
+    # Bar position (centered at the top of the screen)
+    x = (WINDOW_WIDTH - bar_width) // 2
+    y = 10  # Top margin
+
+    # Health bar background
+    pygame.draw.rect(screen, (50, 50, 50), (x - border_thickness, y - border_thickness, bar_width + 2 * border_thickness, bar_height + 2 * border_thickness))  # Border
+    pygame.draw.rect(screen, (200, 200, 200), (x, y, bar_width, bar_height))  # Background
+
+    # Health bar fill
+    health_percentage = max(0, boss.health / 100)  # Assuming boss's max health is 100
+    health_color = (255, 0, 0)  # Red color for health
+    pygame.draw.rect(screen, health_color, (x, y, bar_width * health_percentage, bar_height))
+
+    # Draw the caption
+    font = pygame.font.Font(None, 24)  # Adjust font size as needed
+    caption = font.render('Boss Health', True, (255, 255, 255))  # White color
+    screen.blit(caption, (x + bar_width // 2 - caption.get_width() // 2, y + bar_height + 5))  # Position below the bar
