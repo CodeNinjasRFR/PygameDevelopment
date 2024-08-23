@@ -17,7 +17,6 @@ fpsClock = pygame.time.Clock()
 WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 800
 game_state = 'splash'
-WAVES = [10, 15, 20]
 BOSS_HEALTH=100
 # Text setup
 font = pygame.font.SysFont(None, 36)
@@ -72,29 +71,9 @@ def update_game_state(new_state):
     else:
         stop_music()
 
-class PowerUp(pygame.sprite.Sprite):
-    def __init__(self, x, y, type, image):
-        super().__init__()
-        self.image = image
-        self.rect = self.image.get_rect(topleft=(x, y))
-        self.type = type  # Type of power-up (e.g., "health", "speed")
-    
-    # Powerups have no update logic since they only behave when collided
-    def update(self):
-        pass
+#<---------------------------- NINJA ASSIGNMENTS HERE !!! -------------------------------------->
 
-    # Apply the power-up to the player based on type
-    def apply(self, player):
-        if self.type == "health":
-            player.health = min(player.health + 25, 100)  # Restore health, max 100
-        elif self.type == "speed":
-            player.speed *= 2  # Temporarily increase player speed
-            player.boost_end_time = time.time() + 15  # Set boost duration to 15 seconds
-
-        # Remove the power-up after applying it
-        pygame.mixer.Sound.play(powerup)
-        self.kill()
-
+"""TODO:: CREATE THE BOSS CLASS """
 class Boss(pygame.sprite.Sprite):
     def __init__(self, x, y, speed, image, health):
         super().__init__()
@@ -130,7 +109,33 @@ class Boss(pygame.sprite.Sprite):
         self.rect.topleft = (new_x, new_y)
 
 
-# Function to spawn enemies at the edge
+"""TODO:: CREATE THE POWERUP CLASS """
+
+class PowerUp(pygame.sprite.Sprite):
+    def __init__(self, x, y, type, image):
+        super().__init__()
+        self.image = image
+        self.rect = self.image.get_rect(topleft=(x, y))
+        self.type = type  # Type of power-up (e.g., "health", "speed")
+    
+    # Powerups have no update logic since they only behave when collided
+    def update(self):
+        pass
+
+    # Apply the power-up to the player based on type
+    def apply(self, player):
+        if self.type == "health":
+            player.health = min(player.health + 25, 100)  # Restore health, max 100
+        elif self.type == "speed":
+            player.speed *= 2  # Temporarily increase player speed
+            player.boost_end_time = time.time() + 15  # Set boost duration to 15 seconds
+
+        # Remove the power-up after applying it
+        pygame.mixer.Sound.play(powerup)
+        self.kill()
+
+"""TODO: IMPLEMENT SPAWN ENEMY ON EDGE FUNCTION"""
+
 def spawn_enemy_on_edge():
     # randomly choose side to spawn the enemy, then randomize spawn location on that side
     edge = random.choice(['top', 'bottom', 'left', 'right'])
@@ -149,7 +154,7 @@ def spawn_enemy_on_edge():
 
     return x, y
 
-# Function to spawn a wave of enemies
+"""TODO: IMPLEMENT WAVE SPAWNING"""
 def spawn_wave(number_of_enemies,current_wave):
     global boss
     # loop through number of enemies and spawn them at random locations
@@ -171,6 +176,13 @@ def spawn_wave(number_of_enemies,current_wave):
         boss = Boss(x, y, 4,boss_image,BOSS_HEALTH)
         pygame.mixer.Sound.play(boss_spawn)
         all_sprites.add(boss)
+
+"""TODO: INITIALIZE WAVE SIZES AND NUMBER"""
+WAVES = [10,15,20,30,40,50]
+
+
+#<----------------------------------------------------------------------------------------------->
+
 # Main Game loop
 def game_loop():
     global all_sprites, enemies, projectiles, high_score, powerups, boss
@@ -268,10 +280,10 @@ def game_loop():
 
                     # Check if the player has beaten the high score
                     if current_wave_index + 1 > high_score:
-                        death_screen(current_wave_index + 1, high_score, True)  # Show death screen with high score ui
+                        death_screen(current_wave_index + 1, high_score, True, background_image, player_image, projectile_image)  # Show death screen with high score ui
                         high_score = current_wave_index + 1
                     else:
-                        death_screen(current_wave_index + 1, high_score, False)  # Show death screen without high score ui
+                        death_screen(current_wave_index + 1, high_score, False, background_image, player_image, projectile_image)  # Show death screen without high score ui
                 boss.teleport(player)
 
             # Check if all enemies from the current wave are defeated

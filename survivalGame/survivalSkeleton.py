@@ -209,10 +209,10 @@ def game_loop():
 
                     # Check if the player has beaten the high score
                     if current_wave_index + 1 > high_score:
-                        death_screen(current_wave_index + 1, high_score, True)  # Show death screen with high score ui
+                        death_screen(current_wave_index + 1, high_score, True, background_image, player_image, projectile_image)  # Show death screen with high score ui
                         high_score = current_wave_index + 1
                     else:
-                        death_screen(current_wave_index + 1, high_score, False)  # Show death screen without high score ui
+                        death_screen(current_wave_index + 1, high_score, False, background_image, player_image, projectile_image)  # Show death screen without high score ui
                 boss.teleport(player)
 
             # Check if all enemies from the current wave are defeated

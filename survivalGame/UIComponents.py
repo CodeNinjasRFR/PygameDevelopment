@@ -124,5 +124,5 @@ def draw_boss_health_bar(screen, boss):
 
     # Draw the caption
     font = pygame.font.Font(None, 24)  # Adjust font size as needed
-    caption = font.render('Boss Health', True, (255, 255, 255))  # White color
+    caption = font.render('Boss Health', True, (0, 0, 0))  # Black color
     screen.blit(caption, (x + bar_width // 2 - caption.get_width() // 2, y + bar_height + 5))  # Position below the bar
