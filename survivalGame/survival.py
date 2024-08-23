@@ -55,6 +55,7 @@ enemy_death = pygame.mixer.Sound('./sounds/enemyDeath.mp3')
 wave_clear = pygame.mixer.Sound('./sounds/waveClear.mp3')
 player_damaged = pygame.mixer.Sound('./sounds/playerDamaged.mp3')
 powerup = pygame.mixer.Sound('./sounds/powerup.mp3')
+boss_spawn = pygame.mixer.Sound('./sounds/bossSpawn.mp3')
 
 # functions for handling BG music logic
 def start_music():
@@ -168,6 +169,7 @@ def spawn_wave(number_of_enemies,current_wave):
     if (current_wave+1) % 3==0:
         x, y = spawn_enemy_on_edge()
         boss = Boss(x, y, 4,boss_image,BOSS_HEALTH)
+        pygame.mixer.Sound.play(boss_spawn)
         all_sprites.add(boss)
 # Main Game loop
 def game_loop():
