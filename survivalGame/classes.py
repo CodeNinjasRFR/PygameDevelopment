@@ -150,27 +150,3 @@ class Projectile(pygame.sprite.Sprite):
         if (self.rect.right < 0 or self.rect.left > WINDOW_WIDTH or 
             self.rect.bottom < 0 or self.rect.top > WINDOW_HEIGHT):
             self.kill()
-
-# Powerups spawn once per wave. It is either a health or speed power-up
-class PowerUp(pygame.sprite.Sprite):
-    def __init__(self, x, y, type, image):
-        super().__init__()
-        self.image = image
-        self.rect = self.image.get_rect(topleft=(x, y))
-        self.type = type  # Type of power-up (e.g., "health", "speed")
-    
-    # Powerups have no update logic since they only behave when collided
-    def update(self):
-        pass
-
-    # Apply the power-up to the player based on type
-    def apply(self, player):
-        if self.type == "health":
-            player.health = min(player.health + 25, 100)  # Restore health, max 100
-        elif self.type == "speed":
-            player.speed *= 2  # Temporarily increase player speed
-            player.boost_end_time = time.time() + 15  # Set boost duration to 15 seconds
-
-        # Remove the power-up after applying it
-        pygame.mixer.Sound.play(powerup)
-        self.kill()
